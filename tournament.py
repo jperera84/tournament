@@ -71,11 +71,7 @@ def playerStandings():
     conn = connect()
     cur = conn.cursor()
     cur.execute("""
-        SELECT id, 
-               name,
-               (SELECT COUNT(id) FROM matches m WHERE m.winner = p.id) as wins,
-               (SELECT COUNT(id) FROM matches m WHERE m.winner = p.id OR m.looser = p.id) as matches
-        FROM players p
+        SELECT * FROM standing;
     """)
     standing = cur.fetchall()
     cur.close()
@@ -113,11 +109,7 @@ def swissPairings():
     conn = connect()
     cur = conn.cursor()
     cur.execute("""
-        SELECT id, 
-               name,
-               (SELECT COUNT(id) FROM matches m WHERE m.winner = p.id) as wins
-        FROM players p
-        ORDER BY wins desc
+        SELECT id, name, wins FROM standing;
     """)
     query = cur.fetchall()
     cur.close()
